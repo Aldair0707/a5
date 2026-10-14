@@ -8,6 +8,7 @@ public class SimpsonIntegration {
     private final int intNumSeg;
     private final double dblE;
     private final int intDOF;
+    private final double dblA;
     private final double dblX;
 
     private double dblW;
@@ -20,12 +21,18 @@ public class SimpsonIntegration {
     private double dblFinalValue;
 
     public SimpsonIntegration(int intNumSeg, double dblE, int intDOF, double dblX) {
+        this(intNumSeg, dblE, intDOF, 0.0, dblX);
+    }
+
+    public SimpsonIntegration(
+            int intNumSeg, double dblE, int intDOF, double dblA, double dblX) {
         if (intNumSeg < 2 || intNumSeg % 2 != 0) {
             throw new IllegalArgumentException("Simpson's rule requires an even segment count of at least 2");
         }
         this.intNumSeg = intNumSeg;
         this.dblE = dblE;
         this.intDOF = intDOF;
+        this.dblA = dblA;
         this.dblX = dblX;
     }
 
@@ -41,13 +48,13 @@ public class SimpsonIntegration {
     }
 
     public void computeW(int intNumSeg, double dblX) {
-        dblW = dblX / intNumSeg;
+        dblW = (dblX - dblA) / intNumSeg;
     }
 
     public void computeXi(int intNumSeg) {
         dblTotXi = new double[intNumSeg + 1];
         for (int index = 0; index <= intNumSeg; index++) {
-            dblTotXi[index] = index * dblW;
+            dblTotXi[index] = dblA + index * dblW;
         }
         // Avoid accumulated rounding at the endpoint.
         dblTotXi[intNumSeg] = dblX;
