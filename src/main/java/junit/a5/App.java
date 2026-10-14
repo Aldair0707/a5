@@ -8,25 +8,25 @@ import java.util.Scanner;
 public class App {
 
     private static final double ERROR_TOLERANCE = 0.00001;
+    private static final int NUM_SEG = 10;
     private static final String DEFAULT_OUTPUT = "a5-results.txt";
 
     public static void main(String[] args) {
         try {
-            double x;
+            double lowerBound;
+            double upperBound;
             int dof;
-            int numSegments;
             String outFile = DEFAULT_OUTPUT;
 
             if (args.length == 0) {
                 Scanner console = new Scanner(System.in);
-                x = readDouble(console, "x : ");
+                lowerBound = readDouble(console, "Límite inferior a: ");
+                upperBound = readDouble(console, "Límite superior x: ");
                 dof = readInteger(console, "dof : ");
-                numSegments = readInteger(console,
-                        "num_seg inicial: ");
             } else if (args.length == 3 || args.length == 4) {
-                x = Double.parseDouble(args[0]);
-                dof = Integer.parseInt(args[1]);
-                numSegments = Integer.parseInt(args[2]);
+                lowerBound = Double.parseDouble(args[0]);
+                upperBound = Double.parseDouble(args[1]);
+                dof = Integer.parseInt(args[2]);
                 if (args.length == 4) {
                     outFile = args[3];
                 }
@@ -35,7 +35,8 @@ public class App {
                 return;
             }
 
-            Logic logic = new Logic(numSegments, ERROR_TOLERANCE, dof, x);
+            Logic logic = new Logic(
+                    NUM_SEG, ERROR_TOLERANCE, dof, lowerBound, upperBound);
             double result = logic.logic1a();
             String resultText = String.format(Locale.US, "%.10f%n", result);
 
@@ -66,8 +67,9 @@ public class App {
     }
 
     private static void printUsage() {
-        System.err.println("Enter the three inputs in this order: x, dof, num_seg.");
+        System.err.println("Enter the inputs in this order: lowerBound, upperBound, dof.");
+        System.err.println("The initial segment count num_seg is fixed at " + NUM_SEG + ".");
         System.err.println("Interactive: java junit.a5.App");
-        System.err.println("Arguments:   java junit.a5.App <x> <dof> <num_seg> [outputFile]");
+        System.err.println("Arguments:   java junit.a5.App <lowerBound> <upperBound> <dof> [outputFile]");
     }
 }

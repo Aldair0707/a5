@@ -80,6 +80,12 @@ public class A5Test {
                 () -> new Logic(10, ERROR_TOLERANCE, 9, Double.NaN));
         assertThrows(IllegalArgumentException.class,
                 () -> new Logic(10, ERROR_TOLERANCE, 9, -1.0));
+        assertThrows(IllegalArgumentException.class,
+                () -> new Logic(10, ERROR_TOLERANCE, 9, Double.NaN, 1.1));
+        assertThrows(IllegalArgumentException.class,
+                () -> new Logic(10, ERROR_TOLERANCE, 9, 0.0, Double.POSITIVE_INFINITY));
+        assertThrows(IllegalArgumentException.class,
+                () -> new Logic(10, ERROR_TOLERANCE, 9, 1.1, 1.0));
     }
 
     @Test
@@ -140,17 +146,17 @@ public class A5Test {
     void appAcceptsInteractiveAndArgumentInputs() throws IOException {
         new App();
 
-        CapturedOutput interactive = runApp(new String[0], "1.1\n9\n10\n");
+        CapturedOutput interactive = runApp(new String[0], "0\n1.1\n9\n");
         assertTrue(interactive.stdout.contains("0.3500586369"));
         assertEquals("", interactive.stderr);
 
         CapturedOutput threeArguments = runApp(
-                new String[] {"1.1", "9", "10"}, "");
+                new String[] {"0", "1.1", "9"}, "");
         assertTrue(threeArguments.stdout.contains("0.3500586369"));
 
         Path result = tempDir.resolve("custom-result.txt");
         CapturedOutput fourArguments = runApp(
-                new String[] {"1.1", "9", "10", result.toString()}, "");
+                new String[] {"0", "1.1", "9", result.toString()}, "");
         assertTrue(fourArguments.stdout.contains("0.3500586369"));
         assertEquals("0.3500586369\n", Files.readString(result));
     }
@@ -160,14 +166,15 @@ public class A5Test {
         assertTrue(runApp(new String[] {"1"}, "").stderr.contains("Arguments:"));
         assertTrue(runApp(new String[] {"not-a-number", "9", "10"}, "")
                 .stderr.contains("Input error:"));
-        assertTrue(runApp(new String[] {"1.1", "9", "3"}, "")
+        assertTrue(runApp(new String[] {"1.1", "1.0", "9"}, "")
                 .stderr.contains("Input error:"));
 
         assertTrue(runApp(new String[0], "").stderr.contains("missing console input"));
         assertTrue(runApp(new String[0], "1.1\n").stderr.contains("missing console input"));
         assertTrue(runApp(new String[0], "1.1\n9\n").stderr.contains("missing console input"));
-        assertTrue(runApp(new String[0], "bad-x\n9\n10\n").stderr.contains("Input error:"));
-        assertTrue(runApp(new String[0], "1.1\nbad-dof\n10\n").stderr.contains("Input error:"));
+        assertTrue(runApp(new String[0], "bad-a\n1.1\n9\n").stderr.contains("Input error:"));
+        assertTrue(runApp(new String[0], "0\nbad-x\n9\n").stderr.contains("Input error:"));
+        assertTrue(runApp(new String[0], "0\n1.1\nbad-dof\n").stderr.contains("Input error:"));
     }
 
     @Test
@@ -175,7 +182,7 @@ public class A5Test {
         Path directory = Files.createDirectory(tempDir.resolve("output-is-a-directory"));
 
         CapturedOutput output = runApp(
-                new String[] {"1.1", "9", "10", directory.toString()}, "");
+                new String[] {"0", "1.1", "9", directory.toString()}, "");
 
         assertTrue(output.stderr.contains("Could not write the output file:"));
     }

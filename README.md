@@ -1,9 +1,9 @@
 # A5 — Regla de Simpson
 
-Aplicación Java que aproxima la integral de la densidad t de Student desde 0
-hacia `x` usando la regla compuesta de Simpson. Duplica el número par de
-segmentos hasta que dos aproximaciones consecutivas difieren como máximo en
-`E = 0.00001`.
+Aplicación Java que aproxima la integral de la densidad t de Student entre los
+límites `a` y `x` usando la regla compuesta de Simpson. Duplica el número par
+de segmentos hasta que dos aproximaciones consecutivas difieren como máximo
+en `E = 0.00001`.
 
 ## Requisitos
 
@@ -21,15 +21,20 @@ java -cp target/classes junit.a5.App
 
 Sin argumentos, la aplicación solicita estos tres datos en la consola:
 
-1. `x`: límite superior de integración (el límite inferior es 0).
-2. `dof`: grados de libertad.
-3. `num_seg`: número inicial par de segmentos.
+1. `a`: límite inferior de integración.
+2. `x`: límite superior de integración.
+3. `dof`: grados de libertad.
+
+El número inicial de segmentos es `NUM_SEG = 10`, definido como constante en
+`App`; no se solicita al ejecutar. El cálculo puede duplicarlo para alcanzar
+la tolerancia.
 
 También se aceptan como argumentos; el archivo de salida es opcional:
 
 ```sh
-java -cp target/classes junit.a5.App 1.1 9 10
-java -cp target/classes junit.a5.App 1.1812 10 10 custom-result.txt
+java -cp target/classes junit.a5.App 0 1.1 9
+java -cp target/classes junit.a5.App 1.0 1.1 9
+java -cp target/classes junit.a5.App 1.0 1.1 9 custom-result.txt
 ```
 
 El resultado se imprime en consola y se escribe como un único número en
