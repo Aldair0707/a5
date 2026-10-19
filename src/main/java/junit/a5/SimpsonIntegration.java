@@ -2,7 +2,6 @@ package junit.a5;
 
 import java.util.Locale;
 
-/** Computes one composite Simpson-rule integral of the Student's t density. */
 public class SimpsonIntegration {
 
     private final int intNumSeg;
