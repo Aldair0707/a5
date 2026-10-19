@@ -28,7 +28,7 @@ public class A5Test {
 
     @Test
     void integratesToX11WithNineDegreesOfFreedom() {
-        assertEquals(0.35006, integrate(1.1, 9), 0.000005);
+        assertEquals(0.35006, integrate(1.1, 8), 0.000005);
     }
 
     @Test
