@@ -8,7 +8,7 @@ import java.util.Scanner;
 public class App {
 
     private static final double ERROR_TOLERANCE = 0.00001;
-    private static final int NUM_SEG = 10;
+    private static final int NUM_SEG = 20;
     private static final String DEFAULT_OUTPUT = "a5-results.txt";
 
     public static void main(String[] args) {
@@ -20,8 +20,8 @@ public class App {
 
             if (args.length == 0) {
                 Scanner console = new Scanner(System.in);
-                lowerBound = readDouble(console, "Límite inferior a: ");
-                upperBound = readDouble(console, "Límite superior x: ");
+                lowerBound = readDouble(console, "a: ");
+                upperBound = readDouble(console, "x: ");
                 dof = readInteger(console, "dof : ");
             } else if (args.length == 3 || args.length == 4) {
                 lowerBound = Double.parseDouble(args[0]);
@@ -38,7 +38,7 @@ public class App {
             Logic logic = new Logic(
                     NUM_SEG, ERROR_TOLERANCE, dof, lowerBound, upperBound);
             double result = logic.logic1a();
-            String resultText = String.format(Locale.US, "%.10f%n", result);
+            String resultText = String.format(Locale.US, "%.5f%n", result);
 
             System.out.print(resultText);
             new Output().writeData(outFile, resultText);

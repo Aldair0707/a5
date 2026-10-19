@@ -1,6 +1,5 @@
 package junit.a5;
 
-/** Gamma function implementation for the integer and half-integer inputs used by the t density. */
 public class GammaFunction {
 
     private double gammaValue;
