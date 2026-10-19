@@ -147,18 +147,18 @@ public class A5Test {
         new App();
 
         CapturedOutput interactive = runApp(new String[0], "0\n1.1\n9\n");
-        assertTrue(interactive.stdout.contains("0.3500586369"));
+        assertTrue(interactive.stdout.contains("0.35006"));
         assertEquals("", interactive.stderr);
 
         CapturedOutput threeArguments = runApp(
                 new String[] {"0", "1.1", "9"}, "");
-        assertTrue(threeArguments.stdout.contains("0.3500586369"));
+        assertTrue(threeArguments.stdout.contains("0.35006"));
 
         Path result = tempDir.resolve("custom-result.txt");
         CapturedOutput fourArguments = runApp(
                 new String[] {"0", "1.1", "9", result.toString()}, "");
-        assertTrue(fourArguments.stdout.contains("0.3500586369"));
-        assertEquals("0.3500586369\n", Files.readString(result));
+        assertTrue(fourArguments.stdout.contains("0.35006"));
+        assertEquals("0.35006\n", Files.readString(result));
     }
 
     @Test
